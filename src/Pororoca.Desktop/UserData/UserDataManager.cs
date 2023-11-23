@@ -15,18 +15,6 @@ public static class UserDataManager
     private const string appDataProgramFolderName = "Pororoca";
     private const string userDataFolderName = "PororocaUserData";
     private const string userPreferencesFileName = "userPreferences.json";
-    private static readonly JsonSerializerOptions userPreferencesJsonOptions = SetupUserPreferencesJsonOptions();
-
-    private static JsonSerializerOptions SetupUserPreferencesJsonOptions()
-    {
-        JsonSerializerOptions options = new();
-        options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-        options.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
-        options.WriteIndented = true;
-        options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-        options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-        return options;
-    }
 
     public static UserPreferences? LoadUserPreferences()
     {
@@ -157,7 +145,7 @@ public static class UserDataManager
     internal static DirectoryInfo GetUserDataFolder() =>
         /*
             For debugging, the PororocaUserData folder should be located inside the Pororoca.Desktop directory:
-                "Pororoca.Desktop\bin\Debug\net7.0\win-x64\"
+                "Pororoca.Desktop\bin\Debug\net8.0\win-x64\"
             
             For a release executable, the PororocaUserData folder location depends on the OS:
 
@@ -193,7 +181,9 @@ public static class UserDataManager
         // for debug, do not use Environment.ProcessPath, because it returns "C:\Program Files\dotnet";
         // Assembly.Location returns an empty string for single-file apps
         // do not use single-file app on debug
+        #pragma warning disable IL3000
         string currentDirPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location!)!;
+        #pragma warning restore IL3000
         DirectoryInfo currentDir = new(currentDirPath);
         // .NET 7 no longer has runtime identifer divided Debug folder
         return currentDir.Parent!.Parent!.Parent!;

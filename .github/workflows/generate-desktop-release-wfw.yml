@@ -89,7 +89,7 @@ jobs:
         if ($env:RID -like "*win*")
         {
           # let's copy the msquic.dll file next to the generated .exe
-          Copy-Item -Path "./src/Pororoca.Desktop/bin/Release/net7.0/${env:RID}/msquic.dll" -Destination $env:OUTPUT_FOLDER
+          Copy-Item -Path "./src/Pororoca.Desktop/bin/Release/net8.0/${env:RID}/msquic.dll" -Destination $env:OUTPUT_FOLDER
         }
     
     - name: Rename executable
